@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "results": [
+    {
+      "endpoint": "normal",
+      "success": true,
+      "detected": false,
+      "detections": {
+        "webdriver": "UNKNOWN",
+        "headless": "UNKNOWN",
+        "user_agent": "PRESENT"
+      },
+      "duration": 18.49678325653076,
+      "screenshot": "test6_normal_detection.png"
+    },
+    {
+      "endpoint": "stealth",
+      "success": true,
+      "detected": false,
+      "detections": {
+        "webdriver": "UNKNOWN",
+        "headless": "UNKNOWN",
+        "user_agent": "PRESENT"
+      },
+      "duration": 19.80302906036377,
+      "screenshot": "test6_stealth_detection.png"
+    }
+  ],
+  "api_method": "Playwright + CDP",
+  "endpoints_tested": [
+    "normal",
+    "stealth"
+  ],
+  "features_used": [
+    "Normal CDP endpoint",
+    "Stealth CDP endpoint",
+    "Bot detection bypass",
+    "Anti-fingerprinting"
+  ],
+  "test_site": "bot.sannysoft.com"
+}

@@ -1,0 +1,25 @@
+{
+  "test": "test4_selector_failure",
+  "platform": "browserbase",
+  "duration_seconds": 20.06,
+  "duration_minutes": 0.334,
+  "success": true,
+  "errors_triggered": 2,
+  "error_types": [
+    "Expected error: TimeoutError",
+    "Expected error: TimeoutError"
+  ],
+  "debugging_features": {
+    "session_recording": true,
+    "session_inspector": true,
+    "logs_api": true,
+    "video_replay": true,
+    "rrweb_dom_replay": true,
+    "live_debug_url": true,
+    "available_on_free_tier": true
+  },
+  "session_id": "d58b3805-31cf-452f-a246-e457cd172d93",
+  "recording_url": "https://browserbase.com/sessions/d58b3805-31cf-452f-a246-e457cd172d93",
+  "logs_retrieved": 129,
+  "timestamp": 1770132559.161846
+}

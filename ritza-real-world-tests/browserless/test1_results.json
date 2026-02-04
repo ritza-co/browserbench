@@ -1,0 +1,66 @@
+{
+  "success": true,
+  "duration": 19.71600103378296,
+  "products_found": 10,
+  "products": [
+    {
+      "title": "A Light in the Attic",
+      "price": "\u00a351.77",
+      "rating": "Three"
+    },
+    {
+      "title": "Tipping the Velvet",
+      "price": "\u00a353.74",
+      "rating": "One"
+    },
+    {
+      "title": "Soumission",
+      "price": "\u00a350.10",
+      "rating": "One"
+    },
+    {
+      "title": "Sharp Objects",
+      "price": "\u00a347.82",
+      "rating": "Four"
+    },
+    {
+      "title": "Sapiens: A Brief History of Humankind",
+      "price": "\u00a354.23",
+      "rating": "Five"
+    },
+    {
+      "title": "The Requiem Red",
+      "price": "\u00a322.65",
+      "rating": "One"
+    },
+    {
+      "title": "The Dirty Little Secrets of Getting Your Dream Job",
+      "price": "\u00a333.34",
+      "rating": "Four"
+    },
+    {
+      "title": "The Coming Woman: A Novel Based on the Life of the Infamous Feminist, Victoria Woodhull",
+      "price": "\u00a317.93",
+      "rating": "Three"
+    },
+    {
+      "title": "The Boys in the Boat: Nine Americans and Their Epic Quest for Gold at the 1936 Berlin Olympics",
+      "price": "\u00a322.60",
+      "rating": "Four"
+    },
+    {
+      "title": "The Black Maria",
+      "price": "\u00a352.15",
+      "rating": "One"
+    }
+  ],
+  "api_method": "Playwright + CDP",
+  "target_site": "books.toscrape.com",
+  "features_used": [
+    "CDP connection",
+    "Playwright selectors",
+    "wait_for_selector",
+    "get_attribute"
+  ],
+  "note": "Using scraping-friendly test site to demonstrate data extraction capability"
+}

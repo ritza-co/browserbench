@@ -1,0 +1,107 @@
+{
+  "test": "Test 5: Parallel Product Lookups",
+  "platform": "Anchor",
+  "timestamp": "2026-02-03 17:34:03",
+  "total_duration_seconds": 52.44,
+  "avg_duration_per_category": 43.29,
+  "speedup_factor": 2.48,
+  "success": true,
+  "successful_categories": 3,
+  "failed_categories": 0,
+  "concurrent_limit": 5,
+  "categories_tested": 3,
+  "results": [
+    {
+      "category": "Travel",
+      "category_id": 2,
+      "session_id": "fd153efb-0672-4533-bf3c-105a978993c7",
+      "live_view_url": "https://live.anchorbrowser.io?sessionId=fd153efb-0672-4533-bf3c-105a978993c7",
+      "duration": 46.32906413078308,
+      "products": [
+        {
+          "title": "It's Only the Himalayas",
+          "price": "\u00a345.17"
+        },
+        {
+          "title": "Full Moon over Noah\u2019s Ark: An Odyssey to Mount Ararat and Beyond",
+          "price": "\u00a349.43"
+        },
+        {
+          "title": "See America: A Celebration of Our National Parks & Treasured Sites",
+          "price": "\u00a348.87"
+        },
+        {
+          "title": "Vagabonding: An Uncommon Guide to the Art of Long-Term World Travel",
+          "price": "\u00a336.94"
+        },
+        {
+          "title": "Under the Tuscan Sun",
+          "price": "\u00a337.33"
+        }
+      ],
+      "success": true
+    },
+    {
+      "category": "Mystery",
+      "category_id": 3,
+      "session_id": "03f5a909-f32e-43a0-a7fc-a685ddbd7a3f",
+      "live_view_url": "https://live.anchorbrowser.io?sessionId=03f5a909-f32e-43a0-a7fc-a685ddbd7a3f",
+      "duration": 45.199466943740845,
+      "products": [
+        {
+          "title": "Sharp Objects",
+          "price": "\u00a347.82"
+        },
+        {
+          "title": "In a Dark, Dark Wood",
+          "price": "\u00a319.63"
+        },
+        {
+          "title": "The Past Never Ends",
+          "price": "\u00a356.50"
+        },
+        {
+          "title": "A Murder in Time",
+          "price": "\u00a316.64"
+        },
+        {
+          "title": "The Murder of Roger Ackroyd (Hercule Poirot #4)",
+          "price": "\u00a344.10"
+        }
+      ],
+      "success": true
+    },
+    {
+      "category": "Historical Fiction",
+      "category_id": 4,
+      "session_id": "df544939-0186-4caa-a9d2-8ba8bd08cc04",
+      "live_view_url": "https://live.anchorbrowser.io?sessionId=df544939-0186-4caa-a9d2-8ba8bd08cc04",
+      "duration": 38.337981939315796,
+      "products": [
+        {
+          "title": "Tipping the Velvet",
+          "price": "\u00a353.74"
+        },
+        {
+          "title": "Forever and Forever: The Courtship of Henry Longfellow and Fanny Appleton",
+          "price": "\u00a329.69"
+        },
+        {
+          "title": "A Flight of Arrows (The Pathfinders #2)",
+          "price": "\u00a355.53"
+        },
+        {
+          "title": "The House by the Lake",
+          "price": "\u00a336.95"
+        },
+        {
+          "title": "Mrs. Houdini",
+          "price": "\u00a330.25"
+        }
+      ],
+      "success": true
+    }
+  ],
+  "approach": "SDK + Async Playwright (3 concurrent sessions)",
+  "estimated_cost": "$0.03 (creation) + ~$0.00125 (time)"
+}

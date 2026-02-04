@@ -1,0 +1,13 @@
+{
+  "test": "test3_captcha",
+  "platform": "browserbase",
+  "duration_seconds": 41.96,
+  "duration_minutes": 0.699,
+  "success": false,
+  "reason": "CAPTCHA not solved - feature requires Developer plan ($20/mo)",
+  "captcha_detected": true,
+  "captcha_solved": false,
+  "session_id": "783ca2a1-c19a-4cec-b251-1e58be1be4c0",
+  "recording_url": "https://browserbase.com/sessions/783ca2a1-c19a-4cec-b251-1e58be1be4c0",
+  "timestamp": 1770132475.964919
+}

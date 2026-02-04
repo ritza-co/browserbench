@@ -1,0 +1,28 @@
+{
+  "success": true,
+  "captcha_solved": true,
+  "form_submitted": true,
+  "duration": 39.1472749710083,
+  "captcha_detected": true,
+  "auto_solved": true,
+  "captcha_events": {
+    "found": true,
+    "solved": true
+  },
+  "screenshots": [
+    "test3_captcha_page.png",
+    "test3_captcha_solved.png"
+  ],
+  "api_method": "Async Playwright + CDP",
+  "endpoint": "Stealth with CAPTCHA solving",
+  "features_used": [
+    "Stealth mode",
+    "CAPTCHA detection (Browserless.captchaFound event)",
+    "Automatic CAPTCHA solving",
+    "CDP events",
+    "Form submission after CAPTCHA solve",
+    "Manual solve trigger (Browserless.solveCaptcha)"
+  ],
+  "cost": "10 units per CAPTCHA solve (~1% of free tier monthly allowance)",
+  "test_site": "https://www.google.com/recaptcha/api2/demo"
+}

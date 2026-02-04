@@ -1,0 +1,50 @@
+{
+  "success": true,
+  "duration": 18.50550603866577,
+  "error_handled": true,
+  "error_details": {
+    "type": "TimeoutError",
+    "message": "Page.wait_for_selector: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator(\"div.this-selector-does-not-exist\") to be visible\n"
+  },
+  "debugging_tools_used": [
+    "Screenshots",
+    "Page HTML capture",
+    "Console logs",
+    "Network monitoring",
+    "Selector validation",
+    "Page state inspection"
+  ],
+  "debugging_info": {
+    "page_url": "https://books.toscrape.com/",
+    "page_title": "All products | Books to Scrape - Sandbox",
+    "screenshot": "test4_error_state.png",
+    "html_dump": "test4_page_content.html",
+    "console_logs": 1,
+    "network_requests": 32,
+    "page_errors": 0,
+    "available_selectors": [
+      {
+        "selector": "article.product_pod",
+        "count": 20
+      },
+      {
+        "selector": "h1",
+        "count": 1
+      },
+      {
+        "selector": "div.page_inner",
+        "count": 2
+      },
+      {
+        "selector": "ul.nav",
+        "count": 1
+      }
+    ]
+  },
+  "free_tier_limitations": [
+    "No live debugger (Enterprise only)",
+    "No session replay (Enterprise only)",
+    "Debugging relies on Playwright built-in tools"
+  ],
+  "api_method": "Playwright + CDP"
+}

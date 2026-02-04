@@ -1,0 +1,33 @@
+{
+  "test": "Test 6: Bot Detection (Stealth Mode)",
+  "platform": "Anchor",
+  "timestamp": "2026-02-03 17:37:18",
+  "duration_seconds": 79.51,
+  "success": false,
+  "standard_mode": {
+    "mode": "Standard",
+    "web_bot_auth_enabled": false,
+    "session_id": "c9f12033-2bf9-4fb1-aa5d-fe98a5a17c87",
+    "live_view_url": "https://live.anchorbrowser.io?sessionId=c9f12033-2bf9-4fb1-aa5d-fe98a5a17c87",
+    "duration": 38.63197088241577,
+    "error": "Timeout 20000ms exceeded.",
+    "success": false
+  },
+  "web_bot_auth_mode": {
+    "mode": "Web Bot Auth",
+    "web_bot_auth_enabled": true,
+    "session_id": "2e41802c-3645-4084-8cd9-345fe1c10aa7",
+    "live_view_url": "https://live.anchorbrowser.io?sessionId=2e41802c-3645-4084-8cd9-345fe1c10aa7",
+    "duration": 31.422904014587402,
+    "error": "Timeout 20000ms exceeded.",
+    "success": false
+  },
+  "approach": "SDK + Playwright CDP with Cloudflare Web Bot Auth",
+  "estimated_cost": "$0.02 (creation) + ~$0.00083 (time)",
+  "platform_feature": "Cloudflare Verified Bot status (partnership)",
+  "comparison": {
+    "standard_detected": true,
+    "web_bot_auth_detected": true,
+    "web_bot_auth_advantage": false
+  }
+}

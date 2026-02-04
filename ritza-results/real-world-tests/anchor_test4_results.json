@@ -1,0 +1,46 @@
+{
+  "test": "Test 4: Selector Failure (Debugging)",
+  "platform": "Anchor",
+  "timestamp": "2026-02-03 17:30:25",
+  "duration_seconds": 27.23,
+  "success": true,
+  "errors_captured": 4,
+  "console_messages": 1,
+  "session_id": "4fde4956-68f8-4d6b-85ea-53167a1937a8",
+  "live_view_url": "https://live.anchorbrowser.io?sessionId=4fde4956-68f8-4d6b-85ea-53167a1937a8",
+  "errors": [
+    {
+      "test": "Broken selector timeout",
+      "error_type": "TimeoutError",
+      "error_message": "Page.wait_for_selector: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\"div.this-selecto"
+    },
+    {
+      "test": "Missing element query",
+      "error_type": "None",
+      "error_message": "Element not found (returned None)"
+    },
+    {
+      "test": "Navigation timeout",
+      "error_type": "Error",
+      "error_message": "Page.goto: net::ERR_EMPTY_RESPONSE at https://httpstat.us/504\nCall log:\n  - navigating to \"https://h"
+    },
+    {
+      "test": "Test execution",
+      "error_type": "Error",
+      "error_message": "Page.goto: Navigation to \"https://books.toscrape.com/\" is interrupted by another navigation to \"chrome-error://chromewebdata/\"\nCall log:\n  - navigating to \"https://books.toscrape.com/\", waiting until \"load\"\n"
+    }
+  ],
+  "debugging_artifacts": [
+    "test4_error1_screenshot.png",
+    "test4_final_state.png",
+    "test4_page_content.html"
+  ],
+  "approach": "SDK + Playwright CDP with error handling and Live View URL",
+  "estimated_cost": "$0.01 (creation) + ~$0.0004 (time)",
+  "debugging_tools_used": [
+    "Live View URL (real-time iframe)",
+    "Playwright console capture",
+    "Screenshots on error",
+    "HTML content dumps"
+  ]
+}

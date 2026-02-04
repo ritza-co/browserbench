@@ -1,0 +1,19 @@
+{
+  "test": "test6_bot_detection",
+  "platform": "browserbase",
+  "duration_seconds": 16.84,
+  "duration_minutes": 0.281,
+  "stealth_mode_available": false,
+  "stealth_mode_used": false,
+  "reason": "Stealth mode requires Developer plan ($20/mo)",
+  "detection_indicators": {
+    "webdriver": true,
+    "headless": true,
+    "automation": false
+  },
+  "detected": true,
+  "detected_count": 2,
+  "session_id": "590873de-2f63-426d-b531-b4861da18b1e",
+  "recording_url": "https://browserbase.com/sessions/590873de-2f63-426d-b531-b4861da18b1e",
+  "timestamp": 1770132895.396419
+}

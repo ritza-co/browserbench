@@ -1,0 +1,17 @@
+{
+  "test": "Test 2: Multi-Page Navigation",
+  "platform": "Anchor",
+  "timestamp": "2026-02-03 17:25:53",
+  "duration_seconds": 29.28,
+  "success": true,
+  "session_id": "d5b6dd0c-829d-43c6-947a-6801d2638705",
+  "live_view_url": "https://live.anchorbrowser.io?sessionId=d5b6dd0c-829d-43c6-947a-6801d2638705",
+  "product_data": {
+    "title": "A Light in the Attic",
+    "price": "\u00a351.77",
+    "availability": "In stock (22 available)",
+    "description": "It's hard to imagine a world without A Light in the Attic. This now-classic collection of poetry and..."
+  },
+  "approach": "SDK + Playwright CDP (multi-step workflow)",
+  "estimated_cost": "$0.01 (creation) + ~$0.0008 (time)"
+}

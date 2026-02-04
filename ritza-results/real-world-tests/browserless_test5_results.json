@@ -1,0 +1,40 @@
+{
+  "success": false,
+  "total_duration": 9.522855997085571,
+  "average_duration_per_lookup": 9.079183101654053,
+  "speedup_factor": 2.8602290440281877,
+  "total_lookups": 3,
+  "successful_lookups": 1,
+  "failed_lookups": 2,
+  "results": [
+    {
+      "book_number": 1,
+      "success": true,
+      "title": "A Light in the Attic",
+      "price": "\u00a351.77",
+      "rating": "Three",
+      "duration": 9.079183101654053
+    },
+    {
+      "book_number": 2,
+      "success": false,
+      "error": "BrowserType.connect_over_cdp: WebSocket error: wss://production-sfo.browserless.io/ 429 Too Many Requests\n<html>\r\n<head><title>429 Too Many Requests</title></head>\r\n<body>\r\n<center><h1>429 Too Many Requests</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n\nCall log:\n  - <ws connecting> wss://production-sfo.browserless.io/\n  - <ws unexpected response> wss://production-sfo.browserless.io/ 429 Too Many Requests\n<html>\r\n<head><title>429 Too Many Requests</title></head>\r\n<body>\r\n<center><h1>429 Too Many Requests</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\n  - <ws error> wss://production-sfo.browserless.io/ error WebSocket was closed before the connection was established\n  - <ws connect error> wss://production-sfo.browserless.io/ WebSocket was closed before the connection was established\n  - <ws disconnected> wss://production-sfo.browserless.io/ code=1006 reason=\n",
+      "duration": 1.0128209590911865
+    },
+    {
+      "book_number": 3,
+      "success": false,
+      "error": "BrowserType.connect_over_cdp: WebSocket error: wss://production-sfo.browserless.io/ 429 Too Many Requests\n<html>\r\n<head><title>429 Too Many Requests</title></head>\r\n<body>\r\n<center><h1>429 Too Many Requests</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\r\n\nCall log:\n  - <ws connecting> wss://production-sfo.browserless.io/\n  - <ws unexpected response> wss://production-sfo.browserless.io/ 429 Too Many Requests\n<html>\r\n<head><title>429 Too Many Requests</title></head>\r\n<body>\r\n<center><h1>429 Too Many Requests</h1></center>\r\n<hr><center>openresty/1.27.1.2</center>\r\n</body>\r\n</html>\n  - <ws error> wss://production-sfo.browserless.io/ error WebSocket was closed before the connection was established\n  - <ws connect error> wss://production-sfo.browserless.io/ WebSocket was closed before the connection was established\n  - <ws disconnected> wss://production-sfo.browserless.io/ code=1006 reason=\n",
+      "duration": 1.01279616355896
+    }
+  ],
+  "api_method": "Async Playwright + CDP",
+  "concurrent_sessions": 3,
+  "free_tier_limit": "10 concurrent sessions",
+  "features_used": [
+    "Multiple CDP connections",
+    "Async/await parallel execution",
+    "Independent browser sessions",
+    "asyncio.gather"
+  ]
+}

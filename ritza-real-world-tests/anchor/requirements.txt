@@ -1,0 +1,3 @@
+anchorbrowser
+playwright
+python-dotenv

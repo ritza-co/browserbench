@@ -1,0 +1,30 @@
+{
+  "test": "test2_navigation",
+  "platform": "browserbase",
+  "duration_seconds": 29.01,
+  "duration_minutes": 0.483,
+  "success": true,
+  "books_visited": [
+    {
+      "title": "A Light in the Attic",
+      "price": "\u00a351.77",
+      "description": "It's hard to imagine a world without A Light in the Attic. This now-classic collection of poetry and drawings from Shel Silverstein celebrates its 20th anniversary with this special edition. Silverstein's humorous and creative verse can amuse the dowdiest of readers. Lemon-faced adults and fidgety kids sit still and read these rhythmic words and laugh and smile and love th It's hard to imagine a world without A Light in the Attic. This now-classic collection of poetry and drawings from Shel Silverstein celebrates its 20th anniversary with this special edition. Silverstein's humorous and creative verse can amuse the dowdiest of readers. Lemon-faced adults and fidgety kids sit still and read these rhythmic words and laugh and smile and love that Silverstein. Need proof of his genius? RockabyeRockabye baby, in the treetopDon't you know a treetopIs no safe place to rock?And who put you up there,And your cradle, too?Baby, I think someone down here'sGot it in for you. Shel, you never sounded so good. ...more",
+      "availability": "In stock (22 available)"
+    },
+    {
+      "title": "Tipping the Velvet",
+      "price": "\u00a353.74",
+      "description": "\"Erotic and absorbing...Written with starling power.\"--\"The New York Times Book Review \" Nan King, an oyster girl, is captivated by the music hall phenomenon Kitty Butler, a male impersonator extraordinaire treading the boards in Canterbury. Through a friend at the box office, Nan manages to visit all her shows and finally meet her heroine. Soon after, she becomes Kitty's \"Erotic and absorbing...Written with starling power.\"--\"The New York Times Book Review \" Nan King, an oyster girl, is captivated by the music hall phenomenon Kitty Butler, a male impersonator extraordinaire treading the boards in Canterbury. Through a friend at the box office, Nan manages to visit all her shows and finally meet her heroine. Soon after, she becomes Kitty's dresser and the two head for the bright lights of Leicester Square where they begin a glittering career as music-hall stars in an all-singing and dancing double act. At the same time, behind closed doors, they admit their attraction to each other and their affair begins. ...more",
+      "availability": "In stock (20 available)"
+    },
+    {
+      "title": "Soumission",
+      "price": "\u00a350.10",
+      "description": "Dans une France assez proche de la n\u00f4tre, un homme s\u2019engage dans la carri\u00e8re universitaire. Peu motiv\u00e9 par l\u2019enseignement, il s\u2019attend \u00e0 une vie ennuyeuse mais calme, prot\u00e9g\u00e9e des grands drames historiques. Cependant les forces en jeu dans le pays ont fissur\u00e9 le syst\u00e8me politique jusqu\u2019\u00e0 provoquer son effondrement. Cette implosion sans soubresauts, sans vraie r\u00e9volution, s Dans une France assez proche de la n\u00f4tre, un homme s\u2019engage dans la carri\u00e8re universitaire. Peu motiv\u00e9 par l\u2019enseignement, il s\u2019attend \u00e0 une vie ennuyeuse mais calme, prot\u00e9g\u00e9e des grands drames historiques. Cependant les forces en jeu dans le pays ont fissur\u00e9 le syst\u00e8me politique jusqu\u2019\u00e0 provoquer son effondrement. Cette implosion sans soubresauts, sans vraie r\u00e9volution, se d\u00e9veloppe comme un mauvais r\u00eave.Le talent de l\u2019auteur, sa force visionnaire nous entra\u00eenent sur un terrain ambigu et glissant ; son regard sur notre civilisation vieillissante fait coexister dans ce roman les intuitions po\u00e9tiques, les effets comiques, une m\u00e9lancolie fataliste.Ce livre est une saisissante fable politique et morale. ...more",
+      "availability": "In stock (20 available)"
+    }
+  ],
+  "session_id": "b74b4aca-4be2-4147-80f5-ff6e7a846947",
+  "recording_url": "https://browserbase.com/sessions/b74b4aca-4be2-4147-80f5-ff6e7a846947",
+  "timestamp": 1770186836.409885
+}

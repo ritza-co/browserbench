@@ -1,0 +1,14 @@
+{
+  "test": "Test 3: CAPTCHA Challenge",
+  "platform": "Anchor",
+  "timestamp": "2026-02-02 16:36:04",
+  "duration_seconds": 51.56,
+  "success": false,
+  "captcha_detected": true,
+  "captcha_solved": false,
+  "solve_duration_seconds": 20.0,
+  "session_id": "d5545128-420b-4946-9664-cf630da42b0e",
+  "approach": "SDK + Playwright CDP with vision-based CAPTCHA solver + proxy",
+  "estimated_cost": "$0.01 (creation) + ~$0.0008 (time) + proxy data transfer",
+  "notes": "Uses proxy ($8/GB) and CAPTCHA solver. Auto-detection and solving expected."
+}

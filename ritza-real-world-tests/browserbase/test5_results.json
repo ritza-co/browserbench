@@ -1,0 +1,38 @@
+{
+  "test": "test5_parallel",
+  "platform": "browserbase",
+  "total_duration_seconds": 53.99,
+  "total_duration_minutes": 0.9,
+  "avg_duration_per_item": 18.0,
+  "speedup_factor": 1.0,
+  "execution_mode": "sequential",
+  "reason": "Free tier limited to 1 concurrent session",
+  "concurrent_sessions_limit": 1,
+  "success": true,
+  "results": [
+    {
+      "category": "Travel",
+      "books_found": 11,
+      "duration_seconds": 8.13,
+      "session_id": "f64cb501-75d1-481e-be7d-83e5918eb8f6"
+    },
+    {
+      "category": "Mystery",
+      "books_found": 20,
+      "duration_seconds": 23.16,
+      "session_id": "17a8aef2-09f9-4c92-9726-18aae6264f19"
+    },
+    {
+      "category": "Historical Fiction",
+      "books_found": 20,
+      "duration_seconds": 22.69,
+      "session_id": "c10b171b-f45e-49a6-9bad-f61ee9f3ed84"
+    }
+  ],
+  "session_ids": [
+    "f64cb501-75d1-481e-be7d-83e5918eb8f6",
+    "17a8aef2-09f9-4c92-9726-18aae6264f19",
+    "c10b171b-f45e-49a6-9bad-f61ee9f3ed84"
+  ],
+  "timestamp": 1770132760.19197
+}

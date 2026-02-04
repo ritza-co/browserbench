@@ -1,0 +1,64 @@
+{
+  "test": "Test 1: Product Search & Extract",
+  "platform": "Anchor",
+  "timestamp": "2026-02-03 17:23:05",
+  "duration_seconds": 67.33,
+  "success": true,
+  "products_extracted": 10,
+  "session_id": "b1d1bdfb-b597-4a9b-9b67-28ac076a3d3a",
+  "live_view_url": "https://live.anchorbrowser.io?sessionId=b1d1bdfb-b597-4a9b-9b67-28ac076a3d3a",
+  "products": [
+    {
+      "position": 1,
+      "title": "A Light in the Attic",
+      "price": "\u00a351.77"
+    },
+    {
+      "position": 2,
+      "title": "Tipping the Velvet",
+      "price": "\u00a353.74"
+    },
+    {
+      "position": 3,
+      "title": "Soumission",
+      "price": "\u00a350.10"
+    },
+    {
+      "position": 4,
+      "title": "Sharp Objects",
+      "price": "\u00a347.82"
+    },
+    {
+      "position": 5,
+      "title": "Sapiens: A Brief History of Humankind",
+      "price": "\u00a354.23"
+    },
+    {
+      "position": 6,
+      "title": "The Requiem Red",
+      "price": "\u00a322.65"
+    },
+    {
+      "position": 7,
+      "title": "The Dirty Little Secrets of Getting Your Dream Job",
+      "price": "\u00a333.34"
+    },
+    {
+      "position": 8,
+      "title": "The Coming Woman: A Novel Based on the Life of the Infamous Feminist, Victoria Woodhull",
+      "price": "\u00a317.93"
+    },
+    {
+      "position": 9,
+      "title": "The Boys in the Boat: Nine Americans and Their Epic Quest for Gold at the 1936 Berlin Olympics",
+      "price": "\u00a322.60"
+    },
+    {
+      "position": 10,
+      "title": "The Black Maria",
+      "price": "\u00a352.15"
+    }
+  ],
+  "approach": "SDK + Playwright CDP (standard scraping)",
+  "estimated_cost": "$0.01 (creation) + ~$0.0004 (time)"
+}
