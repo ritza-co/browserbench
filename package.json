@@ -12,7 +12,9 @@
     "idle": "tsx src/benchmarks/2-idle-workflow.ts",
     "stealth": "tsx src/benchmarks/3-stealth.ts",
     "captcha": "tsx src/benchmarks/4-captcha.ts",
-    "parallel": "tsx src/benchmarks/5-parallel.ts"
+    "parallel": "tsx src/benchmarks/5-parallel.ts",
+    "all": "tsx src/all.ts",
+    "report": "tsx src/report.ts"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
