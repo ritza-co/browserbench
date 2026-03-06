@@ -20,11 +20,11 @@ _Last updated: 2026-03-06_
 
 | Rank | Provider | Survived idle | Step 1 | Step 2 | Reconnect | Total | Cost (1-min session) |
 |------|----------|--------------|--------|--------|-----------|-------|----------------------|
-| 1 | STEEL | Yes | 1366ms | 322ms | — | 63s | ~$0.0017 |
-| 2 | KERNEL | Yes | 1602ms | 248ms | — | 62.8s | $0.00 (idle free) |
-| 3 | BROWSERBASE | Yes | 3050ms | 373ms | — | 65.5s | ~$0.0020 |
-| 4 | ANCHORBROWSER | Yes | 3179ms | 265ms | — | 65.6s | ~$0.0108 (incl. $0.01 create fee) |
-| 5 | HYPERBROWSER | Yes | 4047ms | 439ms | — | 65.8s | ~$0.0017 |
+| 1 | KERNEL | Yes | 1602ms | 248ms | — | 62.8s | $0.00 (idle free) |
+| 2 | STEEL | Yes | 1366ms | 322ms | — | 63s | ~$0.0017 |
+| 3 | HYPERBROWSER | Yes | 4047ms | 439ms | — | 65.8s | ~$0.0017 |
+| 4 | BROWSERBASE | Yes | 3050ms | 373ms | — | 65.5s | ~$0.0020 |
+| 5 | ANCHORBROWSER | Yes | 3179ms | 265ms | — | 65.6s | ~$0.0108 (incl. $0.01 create fee) |
 | 6 | BROWSERLESS | No (reconnected) | 2439ms | 435ms | 1902ms | 65.3s | 2 units (free tier) |
 
 ### 3. Stealth / bot detection
@@ -50,10 +50,10 @@ _Last updated: 2026-03-06_
 |----------|-----------|----------|--------|------------|----------------|
 | BROWSERLESS | Yes | Yes | Yes | 17.3s | 10 units/solve (~$0.02 on paid) |
 | KERNEL | Yes | Yes | Yes | 38.5s | ~$0.0006/solve (GB-seconds) |
-| ANCHORBROWSER | No | — | — | — | Starter plan ($50/mo) required |
-| HYPERBROWSER | No | — | — | — | Paid plan required |
 | BROWSERBASE | No | — | — | — | Developer plan ($20/mo) required |
 | STEEL | No | — | — | — | Starter plan ($29/mo) required |
+| HYPERBROWSER | No | — | — | — | Paid plan required |
+| ANCHORBROWSER | No | — | — | — | Starter plan ($50/mo) required |
 
 ### 5. Parallel session handling
 

@@ -152,12 +152,17 @@ function bench2Table(): string | null {
     ANCHORBROWSER: "~$0.0108 (incl. $0.01 create fee)",
   };
 
-  // Survivors first (ranked by step1 speed), non-survivors last
+  // Rank by cost: free idle first, then by step1 speed, non-survivors last
+  const costRank: Record<string, number> = {
+    KERNEL: 0, STEEL: 1, HYPERBROWSER: 2, BROWSERLESS: 3, BROWSERBASE: 4, ANCHORBROWSER: 5,
+  };
   const sorted = [...rows].sort((a, b) => {
     const aS = a.session_survived === true ? 0 : 1;
     const bS = b.session_survived === true ? 0 : 1;
     if (aS !== bS) return aS - bS;
-    return Number(a.step1_ms ?? 9999) - Number(b.step1_ms ?? 9999);
+    const aCost = costRank[String(a.provider)] ?? 99;
+    const bCost = costRank[String(b.provider)] ?? 99;
+    return aCost - bCost;
   });
 
   const header = `| Rank | Provider | Survived idle | Step 1 | Step 2 | Reconnect | Total | Cost (1-min session) |`;
