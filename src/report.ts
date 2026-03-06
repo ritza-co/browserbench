@@ -98,10 +98,19 @@ function bench1Table(): string | null {
 
   if (!rows.length) return null;
 
-  const header = `| Rank | Provider | Avg total | Median total | Avg create | Avg connect | Avg goto | Avg release |`;
-  const divider = `|------|----------|-----------|--------------|------------|-------------|----------|-------------|`;
+  const sessionCost: Record<string, string> = {
+    KERNEL:        "$0.0000167/sec (active only, idle free)",
+    STEEL:         "$0.10/hr",
+    HYPERBROWSER:  "$0.10/hr",
+    BROWSERLESS:   "1 unit/30s (1,000 units/mo free)",
+    BROWSERBASE:   "$0.12/hr (Developer), 1 hr/mo free",
+    ANCHORBROWSER: "$0.05/hr + $0.01/session",
+  };
+
+  const header = `| Rank | Provider | Avg total | Median total | Avg create | Avg connect | Avg goto | Avg release | Pricing |`;
+  const divider = `|------|----------|-----------|--------------|------------|-------------|----------|-------------|---------|`;
   const lines = rows.map((r, i) =>
-    `| ${i + 1} | ${r.provider} | ${r.avg_total_ms}ms | ${r.median_total_ms}ms | ${r.avg_create_ms}ms | ${r.avg_connect_ms}ms | ${r.avg_goto_ms}ms | ${r.avg_release_ms}ms |`
+    `| ${i + 1} | ${r.provider} | ${r.avg_total_ms}ms | ${r.median_total_ms}ms | ${r.avg_create_ms}ms | ${r.avg_connect_ms}ms | ${r.avg_goto_ms}ms | ${r.avg_release_ms}ms | ${sessionCost[String(r.provider)] ?? "—"} |`
   );
 
   return [header, divider, ...lines].join("\n");
@@ -134,12 +143,30 @@ function bench2Table(): string | null {
     return null;
   }
 
-  const header = `| Provider | Session survived | Step 1 | Step 2 | Reconnect | Total |`;
-  const divider = `|----------|-----------------|--------|--------|-----------|-------|`;
-  const lines = rows.map((r) => {
-    const survived = r.session_survived === true ? "Yes" : r.session_survived === false ? "No" : "—";
+  const idleCost: Record<string, string> = {
+    KERNEL:        "$0.00 (idle free)",
+    STEEL:         "~$0.0017",
+    HYPERBROWSER:  "~$0.0017",
+    BROWSERLESS:   "2 units (free tier)",
+    BROWSERBASE:   "~$0.0020",
+    ANCHORBROWSER: "~$0.0108 (incl. $0.01 create fee)",
+  };
+
+  // Survivors first (ranked by step1 speed), non-survivors last
+  const sorted = [...rows].sort((a, b) => {
+    const aS = a.session_survived === true ? 0 : 1;
+    const bS = b.session_survived === true ? 0 : 1;
+    if (aS !== bS) return aS - bS;
+    return Number(a.step1_ms ?? 9999) - Number(b.step1_ms ?? 9999);
+  });
+
+  const header = `| Rank | Provider | Survived idle | Step 1 | Step 2 | Reconnect | Total | Cost (1-min session) |`;
+  const divider = `|------|----------|--------------|--------|--------|-----------|-------|----------------------|`;
+  const lines = sorted.map((r, i) => {
+    const survived = r.session_survived === true ? "Yes" : r.session_survived === false ? "No (reconnected)" : "—";
     const reconnect = r.reconnect_ms != null ? `${r.reconnect_ms}ms` : "—";
-    return `| ${r.provider} | ${survived} | ${r.step1_ms}ms | ${r.step2_ms}ms | ${reconnect} | ${r.total_s}s |`;
+    const cost = idleCost[String(r.provider)] ?? "—";
+    return `| ${i + 1} | ${r.provider} | ${survived} | ${r.step1_ms}ms | ${r.step2_ms}ms | ${reconnect} | ${r.total_s}s | ${cost} |`;
   });
 
   return [header, divider, ...lines].join("\n");
@@ -171,13 +198,20 @@ function bench3Table(): string | null {
     ORDER BY provider, mode
   `);
 
-  if (!rows.length) return null;
+  // Also fetch failed rows (e.g. paid-plan gates) to include in table
+  const failedRows = duckdbJson(`
+    WITH ranked AS (
+      SELECT *,
+        ROW_NUMBER() OVER (PARTITION BY provider, mode ORDER BY created_at DESC) AS rn
+      FROM read_json_auto('results/stealth.jsonl', format='newline_delimited')
+      WHERE success = false
+    )
+    SELECT provider, mode, success, error_message
+    FROM ranked WHERE rn = 1
+    ORDER BY provider, mode
+  `);
 
-  const hasErrors = rows.some((r) => !r.success);
-  if (hasErrors) {
-    console.error(`[report] benchmark 3 has errors — skipping`);
-    return null;
-  }
+  if (!rows.length && !failedRows.length) return null;
 
   function fmt(val: unknown): string {
     if (val === null || val === undefined) return "—";
@@ -186,11 +220,34 @@ function bench3Table(): string | null {
     return String(val);
   }
 
-  const header = `| Provider | Mode | WebDriver | Headless UA | AreYouHeadless | reCAPTCHA score |`;
-  const divider = `|----------|------|-----------|-------------|----------------|-----------------|`;
-  const lines = rows.map((r) =>
-    `| ${r.provider} | ${r.mode} | ${fmt(r.sannysoft_webdriver_detected)} | ${fmt(r.sannysoft_headless_detected)} | ${fmt(r.areyouheadless_detected)} | ${r.recaptcha_score ?? "—"} |`
-  );
+  const stealthPlan: Record<string, string> = {
+    BROWSERLESS:   "Free (stealth endpoint)",
+    KERNEL:        "Free (managed proxy included)",
+    STEEL:         "Paid (proxy add-on)",
+    HYPERBROWSER:  "Paid ($10/GB proxy)",
+    ANCHORBROWSER: "Growth tier ($2,000/mo)",
+    BROWSERBASE:   "Scale plan (custom pricing)",
+  };
+
+  // Successful rows first, sorted by provider then mode; failed rows appended at end
+  const allRows = [
+    ...rows,
+    ...failedRows.map((r) => ({ ...r, _failed: true })),
+  ].sort((a: any, b: any) => {
+    if (a._failed !== b._failed) return a._failed ? 1 : -1;
+    if (a.provider !== b.provider) return String(a.provider).localeCompare(String(b.provider));
+    return String(a.mode).localeCompare(String(b.mode));
+  });
+
+  const header = `| Provider | Mode | WebDriver | Headless UA | AreYouHeadless | reCAPTCHA score | Stealth plan |`;
+  const divider = `|----------|------|-----------|-------------|----------------|-----------------|--------------|`;
+  const lines = allRows.map((r: any) => {
+    if (r._failed) {
+      const reason = String(r.error_message ?? "").split("\n")[0].replace(/Error: /, "");
+      return `| ${r.provider} | ${r.mode} | — | — | — | — | ${reason} |`;
+    }
+    return `| ${r.provider} | ${r.mode} | ${fmt(r.sannysoft_webdriver_detected)} | ${fmt(r.sannysoft_headless_detected)} | ${fmt(r.areyouheadless_detected)} | ${r.recaptcha_score ?? "—"} | ${stealthPlan[String(r.provider)] ?? "—"} |`;
+  });
 
   return [header, divider, ...lines].join("\n");
 }
@@ -234,11 +291,20 @@ function bench4Table(): string | null {
     return "—";
   }
 
-  const header = `| Provider | Free tier support | Detected | Solved | Solve time |`;
-  const divider = `|----------|-------------------|----------|--------|------------|`;
+  const captchaCost: Record<string, string> = {
+    BROWSERLESS:   "10 units/solve (~$0.02 on paid)",
+    KERNEL:        "~$0.0006/solve (GB-seconds)",
+    ANCHORBROWSER: "Starter plan ($50/mo) required",
+    BROWSERBASE:   "Developer plan ($20/mo) required",
+    HYPERBROWSER:  "Paid plan required",
+    STEEL:         "Starter plan ($29/mo) required",
+  };
+
+  const header = `| Provider | Free tier | Detected | Solved | Solve time | Cost per solve |`;
+  const divider = `|----------|-----------|----------|--------|------------|----------------|`;
   const lines = rows.map((r) => {
     const solveTime = r.solve_s != null ? `${r.solve_s}s` : r.supported ? "timeout" : "—";
-    return `| ${r.provider} | ${fmtBool(r.supported)} | ${fmtBool(r.captcha_detected)} | ${fmtBool(r.captcha_solved)} | ${solveTime} |`;
+    return `| ${r.provider} | ${fmtBool(r.supported)} | ${fmtBool(r.captcha_detected)} | ${fmtBool(r.captcha_solved)} | ${solveTime} | ${captchaCost[String(r.provider)] ?? "—"} |`;
   });
 
   return [header, divider, ...lines].join("\n");
@@ -261,18 +327,27 @@ function bench5Table(): string | null {
       SUM(CASE WHEN success THEN 0 ELSE 1 END) AS failed_batches
     FROM read_ndjson_auto('results/parallel-*.jsonl')
     GROUP BY provider, sequential_mode, concurrency
-    ORDER BY avg_parallel_ms ASC
+    ORDER BY sequential_mode ASC, avg_parallel_ms ASC
   `);
 
   if (!rows.length) return null;
 
-  const header = `| Rank | Provider | Avg parallel time | Overhead ratio | Avg sessions succeeded | Failed batches | Sequential mode |`;
-  const divider = `|------|----------|-------------------|----------------|------------------------|----------------|-----------------|`;
+  const concurrencyLimit: Record<string, string> = {
+    STEEL:         "3 (free tier)",
+    KERNEL:        "5 (free tier)",
+    ANCHORBROWSER: "5 (free tier)",
+    BROWSERLESS:   "2 (free tier)",
+    HYPERBROWSER:  "1 (free tier)",
+    BROWSERBASE:   "1 (free tier)",
+  };
+
+  const header = `| Rank | Provider | True parallel | Overhead ratio | Sessions succeeded | Failed batches | Free tier concurrency |`;
+  const divider = `|------|----------|--------------|----------------|-------------------|----------------|----------------------|`;
   const lines = rows.map((r, i) => {
-    const seqMode = r.sequential_mode ? "Yes (free tier limit)" : "No";
+    const parallel = r.sequential_mode ? "No (sequential)" : "Yes";
     const failed = Number(r.failed_batches);
     const failedStr = failed > 0 ? `**${failed}**` : "0";
-    return `| ${i + 1} | ${r.provider} | ${r.avg_parallel_ms}ms | ${r.avg_overhead_ratio} | ${r.avg_succeeded} / ${r.max_sessions} | ${failedStr} | ${seqMode} |`;
+    return `| ${i + 1} | ${r.provider} | ${parallel} | ${r.avg_overhead_ratio} | ${r.avg_succeeded} / ${r.max_sessions} | ${failedStr} | ${concurrencyLimit[String(r.provider)] ?? "—"} |`;
   });
 
   return [header, divider, ...lines].join("\n");
