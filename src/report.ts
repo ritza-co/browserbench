@@ -168,7 +168,7 @@ function bench2Table(): string | null {
   const header = `| Rank | Provider | Survived idle | Step 1 | Step 2 | Reconnect | Total | Cost (1-min session) |`;
   const divider = `|------|----------|--------------|--------|--------|-----------|-------|----------------------|`;
   const lines = sorted.map((r, i) => {
-    const survived = r.session_survived === true ? "Yes" : r.session_survived === false ? "No (reconnected)" : "—";
+    const survived = r.session_survived === true ? "✅" : r.session_survived === false ? "❌ reconnected" : "—";
     const reconnect = r.reconnect_ms != null ? `${r.reconnect_ms}ms` : "—";
     const cost = idleCost[String(r.provider)] ?? "—";
     return `| ${i + 1} | ${r.provider} | ${survived} | ${r.step1_ms}ms | ${r.step2_ms}ms | ${reconnect} | ${r.total_s}s | ${cost} |`;
@@ -272,10 +272,10 @@ function bench3Table(): string | null {
   const lines = allRows.map((r: any) => {
     if (r._failed) {
       const reason = String(r.error_message ?? "").split("\n")[0].replace(/Error: /, "");
-      return `| ${r.provider} | ${r.mode} | No (plan gate) | — | — | — | — | ${reason} |`;
+      return `| ${r.provider} | ${r.mode} | ❌ plan gate | — | — | — | — | ${reason} |`;
     }
     const allClean = r.sannysoft_webdriver_detected === false && r.sannysoft_headless_detected === false && r.areyouheadless_detected === false;
-    const pass = allClean ? "Yes" : "No";
+    const pass = allClean ? "✅" : "❌";
     return `| ${r.provider} | ${r.mode} | ${pass} | ${fmt(r.sannysoft_webdriver_detected)} | ${fmt(r.sannysoft_headless_detected)} | ${fmt(r.areyouheadless_detected)} | ${r.recaptcha_score ?? "—"} | ${stealthPlan[String(r.provider)] ?? "—"} |`;
   });
 
@@ -316,8 +316,8 @@ function bench4Table(): string | null {
   }
 
   function fmtBool(val: unknown): string {
-    if (val === true) return "Yes";
-    if (val === false) return "No";
+    if (val === true) return "✅";
+    if (val === false) return "❌";
     return "—";
   }
 
@@ -385,7 +385,7 @@ function bench5Table(): string | null {
   const header = `| Rank | Provider | True parallel | Overhead ratio | Sessions succeeded | Failed batches | Free tier concurrency |`;
   const divider = `|------|----------|--------------|----------------|-------------------|----------------|----------------------|`;
   const lines = rows.map((r, i) => {
-    const parallel = r.sequential_mode ? "No (sequential)" : "Yes";
+    const parallel = r.sequential_mode ? "❌ sequential" : "✅";
     const failed = Number(r.failed_batches);
     const failedStr = failed > 0 ? `**${failed}**` : "0";
     return `| ${i + 1} | ${r.provider} | ${parallel} | ${r.avg_overhead_ratio} | ${r.avg_succeeded} / ${r.max_sessions} | ${failedStr} | ${concurrencyLimit[String(r.provider)] ?? "—"} |`;

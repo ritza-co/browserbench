@@ -20,51 +20,51 @@ _Last updated: 2026-03-06_
 
 | Rank | Provider | Survived idle | Step 1 | Step 2 | Reconnect | Total | Cost (1-min session) |
 |------|----------|--------------|--------|--------|-----------|-------|----------------------|
-| 1 | KERNEL | Yes | 1602ms | 248ms | — | 62.8s | $0.00 (idle free) |
-| 2 | STEEL | Yes | 1366ms | 322ms | — | 63s | ~$0.0017 |
-| 3 | HYPERBROWSER | Yes | 4047ms | 439ms | — | 65.8s | ~$0.0017 |
-| 4 | BROWSERBASE | Yes | 3050ms | 373ms | — | 65.5s | ~$0.0020 |
-| 5 | ANCHORBROWSER | Yes | 3179ms | 265ms | — | 65.6s | ~$0.0108 (incl. $0.01 create fee) |
-| 6 | BROWSERLESS | No (reconnected) | 2439ms | 435ms | 1902ms | 65.3s | 2 units (free tier) |
+| 1 | KERNEL | ✅ | 1602ms | 248ms | — | 62.8s | $0.00 (idle free) |
+| 2 | STEEL | ✅ | 1366ms | 322ms | — | 63s | ~$0.0017 |
+| 3 | HYPERBROWSER | ✅ | 4047ms | 439ms | — | 65.8s | ~$0.0017 |
+| 4 | BROWSERBASE | ✅ | 3050ms | 373ms | — | 65.5s | ~$0.0020 |
+| 5 | ANCHORBROWSER | ✅ | 3179ms | 265ms | — | 65.6s | ~$0.0108 (incl. $0.01 create fee) |
+| 6 | BROWSERLESS | ❌ reconnected | 2439ms | 435ms | 1902ms | 65.3s | 2 units (free tier) |
 
 ### 3. Stealth / bot detection
 
 | Provider | Mode | Pass | WebDriver | Headless UA | AreYouHeadless | reCAPTCHA score | Stealth plan |
 |----------|------|------|-----------|-------------|----------------|-----------------|--------------|
-| ANCHORBROWSER | default | Yes | Clean | Clean | Clean | 0.3 | Free (worked on trial account; Growth tier $2,000/mo per docs) |
-| ANCHORBROWSER | stealth | Yes | Clean | Clean | Clean | 0.3 | Free (worked on trial account; Growth tier $2,000/mo per docs) |
-| BROWSERBASE | default | Yes | Clean | Clean | Clean | 0.3 | Scale plan (custom pricing) |
-| BROWSERBASE | stealth | No (plan gate) | — | — | — | — | 403 Advanced stealth mode is only available on the Enterprise plan |
-| HYPERBROWSER | default | Yes | Clean | Clean | Clean | 0.3 | Paid ($10/GB proxy) |
-| HYPERBROWSER | stealth | Yes | Clean | Clean | Clean | 0.1 | Paid ($10/GB proxy) |
-| KERNEL | default | Yes | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
-| KERNEL | stealth | Yes | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
-| STEEL | default | Yes | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
-| STEEL | stealth | Yes | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
-| BROWSERLESS | default | No | Detected | Detected | Detected | 0.3 | Free (stealth endpoint) |
-| BROWSERLESS | stealth | Yes | Clean | Clean | Clean | — | Free (stealth endpoint) |
+| ANCHORBROWSER | default | ✅ | Clean | Clean | Clean | 0.3 | Free (worked on trial account; Growth tier $2,000/mo per docs) |
+| ANCHORBROWSER | stealth | ✅ | Clean | Clean | Clean | 0.3 | Free (worked on trial account; Growth tier $2,000/mo per docs) |
+| BROWSERBASE | default | ✅ | Clean | Clean | Clean | 0.3 | Scale plan (custom pricing) |
+| BROWSERBASE | stealth | ❌ plan gate | — | — | — | — | 403 Advanced stealth mode is only available on the Enterprise plan |
+| HYPERBROWSER | default | ✅ | Clean | Clean | Clean | 0.3 | Paid ($10/GB proxy) |
+| HYPERBROWSER | stealth | ✅ | Clean | Clean | Clean | 0.1 | Paid ($10/GB proxy) |
+| KERNEL | default | ✅ | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
+| KERNEL | stealth | ✅ | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
+| STEEL | default | ✅ | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
+| STEEL | stealth | ✅ | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
+| BROWSERLESS | default | ❌ | Detected | Detected | Detected | 0.3 | Free (stealth endpoint) |
+| BROWSERLESS | stealth | ✅ | Clean | Clean | Clean | — | Free (stealth endpoint) |
 
 ### 4. CAPTCHA solving
 
 | Provider | Free tier | Detected | Solved | Solve time | Cost per solve |
 |----------|-----------|----------|--------|------------|----------------|
-| BROWSERLESS | Yes | Yes | Yes | 17.3s | 10 units/solve (~$0.02 on paid) |
-| KERNEL | Yes | Yes | Yes | 38.5s | ~$0.0006/solve (GB-seconds) |
-| BROWSERBASE | No | — | — | — | Developer plan ($20/mo) required |
-| STEEL | No | — | — | — | Starter plan ($29/mo) required |
-| HYPERBROWSER | No | — | — | — | Paid plan required |
-| ANCHORBROWSER | No | — | — | — | Starter plan ($50/mo) required |
+| BROWSERLESS | ✅ | ✅ | ✅ | 17.3s | 10 units/solve (~$0.02 on paid) |
+| KERNEL | ✅ | ✅ | ✅ | 38.5s | ~$0.0006/solve (GB-seconds) |
+| BROWSERBASE | ❌ | — | — | — | Developer plan ($20/mo) required |
+| STEEL | ❌ | — | — | — | Starter plan ($29/mo) required |
+| HYPERBROWSER | ❌ | — | — | — | Paid plan required |
+| ANCHORBROWSER | ❌ | — | — | — | Starter plan ($50/mo) required |
 
 ### 5. Parallel session handling
 
 | Rank | Provider | True parallel | Overhead ratio | Sessions succeeded | Failed batches | Free tier concurrency |
 |------|----------|--------------|----------------|-------------------|----------------|----------------------|
-| 1 | ANCHORBROWSER | Yes | 0.3444 | 3 / 3 | 0 | 5 (free tier) |
-| 2 | STEEL | Yes | 0.3729 | 3 / 3 | 0 | 3 (free tier) |
-| 3 | KERNEL | Yes | 0.3792 | 3 / 3 | 0 | 5 (free tier) |
-| 4 | HYPERBROWSER | No (sequential) | 1.0001 | 3 / 3 | 0 | 1 (free tier) |
-| 5 | BROWSERBASE | No (sequential) | 1.0001 | 3 / 3 | 0 | 1 (free tier) |
-| 6 | BROWSERLESS | No (sequential) | 1.0002 | 3 / 3 | 0 | 2 (free tier) |
+| 1 | ANCHORBROWSER | ✅ | 0.3444 | 3 / 3 | 0 | 5 (free tier) |
+| 2 | STEEL | ✅ | 0.3729 | 3 / 3 | 0 | 3 (free tier) |
+| 3 | KERNEL | ✅ | 0.3792 | 3 / 3 | 0 | 5 (free tier) |
+| 4 | BROWSERBASE | ❌ sequential | 1.0001 | 3 / 3 | 0 | 1 (free tier) |
+| 5 | HYPERBROWSER | ❌ sequential | 1.0001 | 3 / 3 | 0 | 1 (free tier) |
+| 6 | BROWSERLESS | ❌ sequential | 1.0002 | 3 / 3 | 0 | 2 (free tier) |
 
 <!-- RESULTS:END -->
 
