@@ -1,6 +1,4 @@
 node_modules/
 dist/
-!results/.gitkeep
 .env
-*.local
-*.db
+results/*.jsonl

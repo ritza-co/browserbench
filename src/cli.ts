@@ -1,19 +1,14 @@
 import "dotenv/config";
 import fs from "node:fs";
 import { resolveProvider } from "./providers/index.js";
-import { runLoop } from "./run.js";
-import { getArg } from "./utils/arg.js";
+import { runBenchmark } from "./run.js";
+import { getArg, hasFlag } from "./utils/arg.js";
 
 async function main() {
-  const providerArg = getArg(
-    "provider",
-    process.env.PROVIDER || "browserbase"
-  )!;
-  const runs = Number(getArg("runs", process.env.RUNS || "5"));
-  const url = getArg("url", process.env.URL || "https://google.com/")!;
-  const outArg = getArg("out", process.env.OUTPUT || undefined);
-  const rateArg = getArg("rate", process.env.RATE || undefined);
-  const rate = rateArg ? Number(rateArg) : undefined; // sessions per minute
+  const providerArg = getArg("provider", process.env.PROVIDER ?? "browserless")!;
+  const runs = Number(getArg("runs", process.env.RUNS ?? "10"));
+  const url = getArg("url", process.env.URL ?? "https://example.com")!;
+  const warmup = !hasFlag("no-warmup");
 
   const providerNames = providerArg
     .split(",")
@@ -22,23 +17,19 @@ async function main() {
 
   for (const providerName of providerNames) {
     const provider = resolveProvider(providerName);
-    const out = outArg || `results/${providerName}.jsonl`;
-    
-    // Nuke existing file before starting
+    const out = `results/${providerName}.jsonl`;
+
+    fs.mkdirSync("results", { recursive: true });
     if (fs.existsSync(out)) {
       fs.unlinkSync(out);
-      console.error(`[RESET] Deleted existing ${out}`);
+      console.error(`[reset] deleted existing ${out}`);
     }
-    
-    await runLoop(provider, { runs, url, out, rate });
+
+    await runBenchmark(provider, { runs, url, out, warmup });
   }
 }
 
-main()
-  .then(() => {
-    process.exit(0);
-  })
-  .catch((e) => {
-    console.error(`[FATAL] ${e?.stack || e?.message || e}`);
-    process.exit(1);
-  });
+main().catch((e) => {
+  console.error(`[fatal] ${e?.stack ?? e?.message ?? e}`);
+  process.exit(1);
+});

@@ -1,9 +1,10 @@
 export type ProviderName =
-  | "STEEL"
+  | "BROWSERLESS"
   | "BROWSERBASE"
   | "ANCHORBROWSER"
   | "HYPERBROWSER"
-  | "KERNEL";
+  | "KERNEL"
+  | "STEEL";
 
 export type MetricRecord = {
   created_at: string;
@@ -27,4 +28,11 @@ export interface ProviderClient {
   readonly name: ProviderName;
   create(): Promise<ProviderSession>;
   release(id: string): Promise<void>;
+
+  // Optional per-benchmark variants. If absent, the benchmark falls back to create().
+  createStealth?(): Promise<ProviderSession>;
+  createWithCaptcha?(): Promise<ProviderSession>;
+
+  // Free-tier concurrency limit. Undefined = no known limit.
+  readonly maxConcurrency?: number;
 }

@@ -1,190 +1,138 @@
 # ritza-browser-bench
 
-A fork of [Steel's browserbench](https://github.com/steel-dev/browserbench) adapted for testing browser automation platforms on free tiers.
-
-## Why This Fork Exists
-
-This fork was created for the article [Agent Experience for Browser Automation Platforms](https://ritza.co/techstackups/comparisons/browserless-vs-browserbase-vs-anchor-agent-experience/), which compares Browserless, Browserbase, and Anchor through AI coding agents.
-
-Steel's original benchmark runs 5,000 sessions per platform to measure connection speed at scale. That's perfect for understanding production performance but impossible on free tiers that limit you to 1,000 requests per month or 1 concurrent session.
-
-We needed benchmark results that readers could verify themselves without burning through monthly quotas in minutes. This fork adapts the original benchmark for free tier testing while maintaining the same four-stage measurement methodology.
-
-## What Changed
-
-**Original benchmark (Steel):**
-- 5,000 measured runs per provider
-- Tests: Steel, Kernel, Browserbase, Hyperbrowser, Anchor
-- Run from AWS EC2 in us-east-1
-- Focus: production-scale performance
-
-**This fork (Ritza):**
-- 10 measured runs + 3 warmup runs per provider
-- Added: Browserless (wasn't in original)
-- Tests: Browserless, Browserbase, Anchor
-- Run from any machine with free tier API keys
-- Focus: connection speed anyone can verify + real-world feature tests
-
-**Additional changes:**
-- Added Browserless provider implementation
-- Simplified rate limiting logic for smaller test runs
-- Added 6 real-world test scenarios in [ritza-real-world-tests/](ritza-real-world-tests/)
-- Updated documentation for free tier constraints
-
-## Real-World Tests
-
-Beyond connection speed, we added six practical tests that developers actually care about:
-
-1. **Product search** - Extract structured data from e-commerce sites
-2. **Multi-page navigation** - Click through multiple pages
-3. **CAPTCHA handling** - Test built-in CAPTCHA solving
-4. **Error recovery** - Debugging tools when things break
-5. **Parallel execution** - Running multiple browsers simultaneously
-6. **Bot detection** - Stealth mode and anti-detection
-
-See [ritza-real-world-tests/](ritza-real-world-tests/) for the test implementations.
-
-## Credit to Original Creators
-
-The core benchmark architecture, measurement methodology, and most of the codebase comes from [Steel's browserbench](https://github.com/steel-dev/browserbench).
-
-**Original work by Steel:**
-- All provider interface patterns (`src/providers/`)
-- Benchmark runner logic (`src/benchmark.ts`)
-- DuckDB analysis queries (`queries/`)
-- Four-stage timing measurement
-- CLI argument parsing
-- Result output format (JSONL)
-
-**Our additions (Ritza):**
-- Browserless provider implementation (`src/providers/browserless.ts`)
-- Reduced run counts (5,000 → 10) for free tier testing
-- Real-world test scenarios (`ritza-real-world-tests/`)
-- Updated documentation for free tier focus
-- This README
-
-## Quick Start (Free Tier)
-
-1. **Requirements**
-   - Node.js ≥ 18
-   - Free tier API keys for the platforms you want to test
-
-2. **Install**
-   ```bash
-   git clone https://github.com/ritza-co/ritza-browser-bench
-   cd ritza-browser-bench
-   npm install
-   ```
-
-3. **Configure** (create `.env` file)
-   ```bash
-   # Browserless
-   BROWSERLESS_API_KEY=your_key_here
-
-   # Browserbase
-   BROWSERBASE_API_KEY=your_key_here
-   BROWSERBASE_PROJECT_ID=your_project_id_here
-
-   # Anchor
-   ANCHORBROWSER_API_KEY=your_key_here
-   ```
-
-4. **Run speed benchmark** (10 runs per platform)
-   ```bash
-   npm run build
-   npm run bench -- --provider browserless,browserbase,anchor --runs 10
-   ```
-
-5. **Run real-world tests**
-   ```bash
-   cd ritza-real-world-tests/browserless
-   npm install
-   npm test
-   ```
-
+<!-- RESULTS:START -->
 ## Results
 
-Our free tier benchmark results:
+_Last updated: 2026-03-06_
 
-| Platform | Total Time | Session Creation | CDP Connection | Success Rate | Variance |
-|----------|------------|------------------|----------------|--------------|----------|
-| **Browserless** | 4,264ms | 0ms | 3,085ms | 10/10 | 18% |
-| **Browserbase** | 11,886ms | 5,838ms | 2,995ms | 10/10 | 21% |
-| **Anchor** | 13,121ms | 5,801ms | 2,689ms | 10/10 | 38% |
+### 1. Session lifecycle speed
 
-See the [full article](https://ritza.co/techstackups/comparisons/browserless-vs-browserbase-vs-anchor-agent-experience/) for detailed analysis of these results and real-world test outcomes.
+| Rank | Provider | Avg total | Median total | Avg create | Avg connect | Avg goto | Avg release | Pricing |
+|------|----------|-----------|--------------|------------|-------------|----------|-------------|---------|
+| 1 | STEEL | 1441ms | 1412ms | 290ms | 760ms | 209ms | 181ms | $0.10/hr |
+| 2 | KERNEL | 1554ms | 1551ms | 225ms | 815ms | 271ms | 243ms | $0.0000167/sec (active only, idle free) |
+| 3 | BROWSERLESS | 2090ms | 2101ms | 0ms | 1665ms | 425ms | 0ms | 1 unit/30s (1,000 units/mo free) |
+| 4 | ANCHORBROWSER | 3730ms | 3636ms | 1528ms | 1015ms | 315ms | 872ms | $0.05/hr + $0.01/session |
+| 5 | HYPERBROWSER | 4012ms | 3643ms | 1462ms | 1892ms | 496ms | 163ms | $0.10/hr |
+| 6 | BROWSERBASE | 11933ms | 2943ms | 9401ms | 1474ms | 648ms | 410ms | $0.12/hr (Developer), 1 hr/mo free |
 
-## What Gets Measured
+### 2. Idle workflow survival
 
-Each iteration records four timing stages (milliseconds):
+| Rank | Provider | Survived idle | Step 1 | Step 2 | Reconnect | Total | Cost (1-min session) |
+|------|----------|--------------|--------|--------|-----------|-------|----------------------|
+| 1 | KERNEL | ✅ | 1602ms | 248ms | — | 62.8s | $0.00 (idle free) |
+| 2 | STEEL | ✅ | 1366ms | 322ms | — | 63s | ~$0.0017 |
+| 3 | HYPERBROWSER | ✅ | 4047ms | 439ms | — | 65.8s | ~$0.0017 |
+| 4 | BROWSERBASE | ✅ | 3050ms | 373ms | — | 65.5s | ~$0.0020 |
+| 5 | ANCHORBROWSER | ✅ | 3179ms | 265ms | — | 65.6s | ~$0.0108 (incl. $0.01 create fee) |
+| 6 | BROWSERLESS | ❌ reconnected | 2439ms | 435ms | 1902ms | 65.3s | 2 units (free tier) |
 
-- `session_creation_ms` - API call to create browser session
-- `session_connect_ms` - Playwright CDP handshake
-- `page_goto_ms` - Navigate to URL (wait for `domcontentloaded`)
-- `session_release_ms` - API call to terminate session
+### 3. Stealth / bot detection
 
-Results are written to `results/{provider}.jsonl` in JSON Lines format.
+| Provider | Mode | Pass | WebDriver | Headless UA | AreYouHeadless | reCAPTCHA score | Stealth plan |
+|----------|------|------|-----------|-------------|----------------|-----------------|--------------|
+| ANCHORBROWSER | default | ✅ | Clean | Clean | Clean | 0.3 | Free (worked on trial account; Growth tier $2,000/mo per docs) |
+| ANCHORBROWSER | stealth | ✅ | Clean | Clean | Clean | 0.3 | Free (worked on trial account; Growth tier $2,000/mo per docs) |
+| BROWSERBASE | default | ✅ | Clean | Clean | Clean | 0.3 | Scale plan (custom pricing) |
+| BROWSERBASE | stealth | ❌ plan gate | — | — | — | — | 403 Advanced stealth mode is only available on the Enterprise plan |
+| HYPERBROWSER | default | ✅ | Clean | Clean | Clean | 0.3 | Paid ($10/GB proxy) |
+| HYPERBROWSER | stealth | ✅ | Clean | Clean | Clean | 0.1 | Paid ($10/GB proxy) |
+| KERNEL | default | ✅ | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
+| KERNEL | stealth | ✅ | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
+| STEEL | default | ✅ | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
+| STEEL | stealth | ✅ | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
+| BROWSERLESS | default | ❌ | Detected | Detected | Detected | 0.3 | Free (stealth endpoint) |
+| BROWSERLESS | stealth | ✅ | Clean | Clean | Clean | — | Free (stealth endpoint) |
 
-## Analyzing Results with DuckDB
+### 4. CAPTCHA solving
 
-Query the raw JSONL files directly:
+| Provider | Free tier | Detected | Solved | Solve time | Cost per solve |
+|----------|-----------|----------|--------|------------|----------------|
+| BROWSERLESS | ✅ | ✅ | ✅ | 17.3s | 10 units/solve (~$0.02 on paid) |
+| KERNEL | ✅ | ✅ | ✅ | 38.5s | ~$0.0006/solve (GB-seconds) |
+| BROWSERBASE | ❌ | — | — | — | Developer plan ($20/mo) required |
+| STEEL | ❌ | — | — | — | Starter plan ($29/mo) required |
+| HYPERBROWSER | ❌ | — | — | — | Paid plan required |
+| ANCHORBROWSER | ❌ | — | — | — | Starter plan ($50/mo) required |
+
+### 5. Parallel session handling
+
+| Rank | Provider | True parallel | Overhead ratio | Sessions succeeded | Failed batches | Free tier concurrency |
+|------|----------|--------------|----------------|-------------------|----------------|----------------------|
+| 1 | ANCHORBROWSER | ✅ | 0.3444 | 3 / 3 | 0 | 5 (free tier) |
+| 2 | STEEL | ✅ | 0.3729 | 3 / 3 | 0 | 3 (free tier) |
+| 3 | KERNEL | ✅ | 0.3792 | 3 / 3 | 0 | 5 (free tier) |
+| 4 | BROWSERBASE | ❌ sequential | 1.0001 | 3 / 3 | 0 | 1 (free tier) |
+| 5 | HYPERBROWSER | ❌ sequential | 1.0001 | 3 / 3 | 0 | 1 (free tier) |
+| 6 | BROWSERLESS | ❌ sequential | 1.0002 | 3 / 3 | 0 | 2 (free tier) |
+
+<!-- RESULTS:END -->
+
+Benchmarks for hosted browser providers. All tests run on free tiers and produce results you can verify yourself.
+
+Providers tested: Browserless, Browserbase, Anchor, Hyperbrowser, Kernel, Steel.
+
+## Benchmarks
+
+### 1. Session lifecycle speed
+
+Measures how long it takes from "I need a browser" to "I have a page open and ready to use", split into four stages:
+
+| Stage | What it measures |
+|---|---|
+| `session_creation_ms` | API call to create the session (control plane overhead) |
+| `session_connect_ms` | CDP handshake to establish the browser connection |
+| `page_goto_ms` | Navigate to target URL and wait for DOM content to load |
+| `session_release_ms` | API call to terminate the session |
+
+10 measured runs per provider, 3 warmup runs discarded. Target URL: `https://example.com`.
+
+**Results:** [coming soon]
+
+## Setup
 
 ```bash
-# Quick averages per provider
-duckdb -c ".read queries/simple.sql"
-
-# Full breakdown with percentiles
-duckdb -c ".read queries/full.sql"
-```
-
-## CLI Options
-
-- `--provider` - Platform names (comma-separated): `browserless`, `browserbase`, `anchor`
-- `--runs` - Number of measured iterations (default: 5, recommend: 10 for free tier)
-- `--url` - First page to load (default: `https://google.com/`)
-- `--out` - Output path (default: `results/{provider}.jsonl`)
-- `--rate` - Maximum sessions per minute (default: unlimited)
-
-## Free Tier Constraints
-
-**Browserless:**
-- 1,000 units/month
-- 10 concurrent sessions (rate limiting observed at 3)
-
-**Browserbase:**
-- 1 browser hour/month
-- 1 concurrent session
-
-**Anchor:**
-- $5 in free credits
-- 5 concurrent sessions
-
-Running 10 iterations uses minimal quota on all platforms (under 5 minutes total runtime).
-
-## Reproducing Steel's Original Results
-
-For production-scale testing, use [Steel's original benchmark](https://github.com/steel-dev/browserbench):
-
-```bash
-git clone https://github.com/steel-dev/browserbench
-cd browserbench
 npm install
-npm run build
-npm run bench -- --provider steel,kernel,browserbase --runs 5000
+cp .env.example .env
+# Fill in your API keys in .env
 ```
 
-Their results show averages over 5,000 runs from AWS EC2:
-- Kernel: 794ms
-- Steel: 894ms
-- Browserbase: 2,967ms
-- Anchor: 8,001ms
+You'll need accounts (all free tier) at:
+- [Browserless](https://browserless.io)
+- [Browserbase](https://browserbase.com)
+- [Anchor Browser](https://anchorbrowser.io)
+- [Hyperbrowser](https://hyperbrowser.ai)
+- [Kernel](https://onkernel.com)
+- [Steel](https://steel.dev)
 
-## License
+## Running benchmarks
 
-MIT (same as [original](https://github.com/steel-dev/browserbench))
+Run a single provider:
 
-## Links
+```bash
+npm run bench -- --provider browserless
+```
 
-- **Original benchmark**: https://github.com/steel-dev/browserbench
-- **Full article**: [Agent Experience for Browser Automation Platforms](https://ritza.co/techstackups/comparisons/browserless-vs-browserbase-vs-anchor-agent-experience/)
-- **Ritza**: https://ritza.co
+Run all providers:
+
+```bash
+npm run bench -- --provider browserless,browserbase,anchorbrowser,hyperbrowser,kernel,steel
+```
+
+Results are written to `results/<provider>.jsonl`.
+
+## Analyzing results
+
+Requires [DuckDB](https://duckdb.org/docs/installation/).
+
+Quick totals (avg and median total time per provider, ranked fastest to slowest):
+
+```bash
+duckdb -c ".read queries/totals.sql"
+```
+
+Full breakdown (avg, median, p95, stddev per stage per provider):
+
+```bash
+duckdb -c ".read queries/summary.sql"
+```

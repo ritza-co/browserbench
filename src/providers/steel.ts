@@ -6,7 +6,8 @@ export class SteelProvider implements ProviderClient {
   readonly name = "STEEL";
   private _client: Steel | null = null;
 
-  private async client(): Promise<Steel> {
+
+  private client(): Steel {
     if (!this._client) {
       const apiKey = requireEnv("STEEL_API_KEY");
       this._client = new Steel({ steelAPIKey: apiKey });
@@ -16,7 +17,7 @@ export class SteelProvider implements ProviderClient {
 
   async create(): Promise<ProviderSession> {
     const apiKey = requireEnv("STEEL_API_KEY");
-    const session = await (await this.client()).sessions.create();
+    const session = await this.client().sessions.create();
     const id = session?.id;
     const websocketUrl = session?.websocketUrl;
     const cdpUrl = `${websocketUrl}&apiKey=${apiKey}`;
@@ -24,7 +25,18 @@ export class SteelProvider implements ProviderClient {
     return { id, cdpUrl };
   }
 
+  async createStealth(): Promise<ProviderSession> {
+    const apiKey = requireEnv("STEEL_API_KEY");
+    const session = await this.client().sessions.create({
+      stealthConfig: { humanizeInteractions: true },
+    });
+    const id = session?.id;
+    const websocketUrl = session?.websocketUrl;
+    if (!id || !websocketUrl) throw new Error("Invalid Steel session response");
+    return { id, cdpUrl: `${websocketUrl}&apiKey=${apiKey}` };
+  }
+
   async release(id: string): Promise<void> {
-    await (await this.client()).sessions.release(id);
+    await this.client().sessions.release(id);
   }
 }

@@ -1,3 +1,7 @@
+export function hasFlag(name: string): boolean {
+  return process.argv.slice(2).includes(`--${name}`);
+}
+
 export function getArg(name: string, fallback?: string) {
   const argv = process.argv.slice(2);
 
