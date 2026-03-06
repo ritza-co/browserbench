@@ -3,41 +3,42 @@
 <!-- RESULTS:START -->
 ## Results
 
-_Last updated: 2026-03-05_
+_Last updated: 2026-03-06_
 
 ### 1. Session lifecycle speed
 
 | Rank | Provider | Avg total | Median total | Avg create | Avg connect | Avg goto | Avg release |
 |------|----------|-----------|--------------|------------|-------------|----------|-------------|
-| 1 | STEEL | 3298ms | 3125ms | 632ms | 1682ms | 479ms | 505ms |
-| 2 | BROWSERLESS | 4200ms | 4246ms | 0ms | 3580ms | 620ms | 0ms |
-| 3 | KERNEL | 4393ms | 4159ms | 566ms | 2693ms | 528ms | 605ms |
-| 4 | HYPERBROWSER | 5163ms | 5004ms | 1780ms | 2378ms | 608ms | 397ms |
-| 5 | ANCHORBROWSER | 10396ms | 10380ms | 3538ms | 3287ms | 539ms | 3033ms |
-| 6 | BROWSERBASE | 12119ms | 7536ms | 5419ms | 3353ms | 1012ms | 2336ms |
+| 1 | STEEL | 1441ms | 1412ms | 290ms | 760ms | 209ms | 181ms |
+| 2 | KERNEL | 1554ms | 1551ms | 225ms | 815ms | 271ms | 243ms |
+| 3 | BROWSERLESS | 2090ms | 2101ms | 0ms | 1665ms | 425ms | 0ms |
+| 4 | ANCHORBROWSER | 3730ms | 3636ms | 1528ms | 1015ms | 315ms | 872ms |
+| 5 | HYPERBROWSER | 4012ms | 3643ms | 1462ms | 1892ms | 496ms | 163ms |
+| 6 | BROWSERBASE | 11933ms | 2943ms | 9401ms | 1474ms | 648ms | 410ms |
 
 ### 2. Idle workflow survival
 
 | Provider | Session survived | Step 1 | Step 2 | Reconnect | Total |
 |----------|-----------------|--------|--------|-----------|-------|
-| ANCHORBROWSER | Yes | 8598ms | 621ms | — | 75s |
-| BROWSERBASE | Yes | 5902ms | 639ms | — | 71.3s |
-| BROWSERLESS | No | 4364ms | 656ms | 2810ms | 69.2s |
-| HYPERBROWSER | Yes | 5612ms | 601ms | — | 68.9s |
-| KERNEL | Yes | 3991ms | 553ms | — | 67s |
-| STEEL | No | 4493ms | 399ms | 2976ms | 69.6s |
+| ANCHORBROWSER | Yes | 3179ms | 265ms | — | 65.6s |
+| BROWSERBASE | Yes | 3050ms | 373ms | — | 65.5s |
+| BROWSERLESS | No | 2439ms | 435ms | 1902ms | 65.3s |
+| HYPERBROWSER | Yes | 4047ms | 439ms | — | 65.8s |
+| KERNEL | Yes | 1602ms | 248ms | — | 62.8s |
+| STEEL | Yes | 1366ms | 322ms | — | 63s |
 
 ### 3. Stealth / bot detection
 
 | Provider | Mode | WebDriver | Headless UA | AreYouHeadless | reCAPTCHA score |
 |----------|------|-----------|-------------|----------------|-----------------|
-| ANCHORBROWSER | default | Clean | Clean | Clean | 0.1 |
+| ANCHORBROWSER | default | Clean | Clean | Clean | 0.3 |
+| ANCHORBROWSER | stealth | Clean | Clean | Clean | 0.3 |
 | BROWSERBASE | default | Clean | Clean | Clean | 0.3 |
 | BROWSERLESS | default | Detected | Detected | Detected | 0.3 |
-| BROWSERLESS | stealth | Clean | Clean | Clean | 0.3 |
-| HYPERBROWSER | default | Clean | Clean | Clean | 0.1 |
+| BROWSERLESS | stealth | Clean | Clean | Clean | — |
+| HYPERBROWSER | default | Clean | Clean | Clean | 0.3 |
 | HYPERBROWSER | stealth | Clean | Clean | Clean | 0.1 |
-| KERNEL | default | Clean | Clean | Clean | 0.1 |
+| KERNEL | default | Clean | Clean | Clean | 0.3 |
 | KERNEL | stealth | Clean | Clean | Clean | 0.3 |
 | STEEL | default | Clean | Clean | Clean | 0.3 |
 | STEEL | stealth | Clean | Clean | Clean | 0.3 |
@@ -46,23 +47,23 @@ _Last updated: 2026-03-05_
 
 | Provider | Free tier support | Detected | Solved | Solve time |
 |----------|-------------------|----------|--------|------------|
-| BROWSERLESS | Yes | Yes | Yes | 38.6s |
-| KERNEL | Yes | Yes | Yes | 40.7s |
+| BROWSERLESS | Yes | Yes | Yes | 17.3s |
+| KERNEL | Yes | Yes | Yes | 38.5s |
+| HYPERBROWSER | No | — | — | — |
+| ANCHORBROWSER | No | — | — | — |
 | BROWSERBASE | No | — | — | — |
 | STEEL | No | — | — | — |
-| ANCHORBROWSER | No | — | — | — |
-| HYPERBROWSER | No | — | — | — |
 
 ### 5. Parallel session handling
 
 | Rank | Provider | Avg parallel time | Overhead ratio | Avg sessions succeeded | Failed batches | Sequential mode |
 |------|----------|-------------------|----------------|------------------------|----------------|-----------------|
-| 1 | STEEL | 3955ms | 0.3394 | 3 / 3 | 0 | No |
-| 2 | KERNEL | 4280ms | 0.3553 | 3 / 3 | 0 | No |
-| 3 | ANCHORBROWSER | 9957ms | 0.3822 | 3 / 3 | 0 | No |
-| 4 | BROWSERLESS | 13707ms | 1.0001 | 3 / 3 | 0 | Yes (free tier limit) |
-| 5 | HYPERBROWSER | 21382ms | 1.0001 | 3 / 3 | 0 | Yes (free tier limit) |
-| 6 | BROWSERBASE | 21903ms | 1.0006 | 0 / 3 | **3** | Yes (free tier limit) |
+| 1 | STEEL | 1736ms | 0.3729 | 3 / 3 | 0 | No |
+| 2 | KERNEL | 2097ms | 0.3792 | 3 / 3 | 0 | No |
+| 3 | ANCHORBROWSER | 4401ms | 0.3444 | 3 / 3 | 0 | No |
+| 4 | BROWSERLESS | 6729ms | 1.0002 | 3 / 3 | 0 | Yes (free tier limit) |
+| 5 | HYPERBROWSER | 12394ms | 1.0001 | 3 / 3 | 0 | Yes (free tier limit) |
+| 6 | BROWSERBASE | 24889ms | 1.0001 | 3 / 3 | 0 | Yes (free tier limit) |
 
 <!-- RESULTS:END -->
 

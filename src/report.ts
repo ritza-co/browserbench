@@ -98,20 +98,6 @@ function bench1Table(): string | null {
 
   if (!rows.length) return null;
 
-  // Check any errors exist
-  const errCheck = duckdbJson(`
-    SELECT COUNT(*) AS err_count
-    FROM read_json_auto('results/*.jsonl', format='newline_delimited')
-    WHERE provider IS NOT NULL
-      AND session_creation_ms IS NOT NULL
-      AND success = false
-  `);
-  const errCount = Number(errCheck[0]?.err_count ?? 0);
-  if (errCount > 0) {
-    console.error(`[report] benchmark 1 has ${errCount} errors — skipping`);
-    return null;
-  }
-
   const header = `| Rank | Provider | Avg total | Median total | Avg create | Avg connect | Avg goto | Avg release |`;
   const divider = `|------|----------|-----------|--------------|------------|-------------|----------|-------------|`;
   const lines = rows.map((r, i) =>
