@@ -22,6 +22,18 @@ export class AnchorBrowserProvider implements ProviderClient {
     return { id, cdpUrl };
   }
 
+  async createStealth(): Promise<ProviderSession> {
+    // extra_stealth requires Growth tier ($2,000/mo) — will fail on free tier
+    const session = await this.client().sessions.create({
+      browser: { extra_stealth: { active: true } },
+      session: { proxy: { active: true } },
+    } as any);
+    const id = session.data?.id;
+    const cdpUrl = session.data?.cdp_url;
+    if (!id || !cdpUrl) throw new Error("Invalid Anchorbrowser session response");
+    return { id, cdpUrl };
+  }
+
   async release(id: string): Promise<void> {
     await this.client().sessions.delete(id);
   }
