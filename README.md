@@ -31,18 +31,18 @@ _Last updated: 2026-03-06_
 
 | Provider | Mode | Pass | WebDriver | Headless UA | AreYouHeadless | reCAPTCHA score | Stealth plan |
 |----------|------|------|-----------|-------------|----------------|-----------------|--------------|
-| ANCHORBROWSER | default | Yes | Clean | Clean | Clean | 0.3 | Growth tier ($2,000/mo) |
-| ANCHORBROWSER | stealth | Yes | Clean | Clean | Clean | 0.3 | Growth tier ($2,000/mo) |
+| ANCHORBROWSER | default | Yes | Clean | Clean | Clean | 0.3 | Free (worked on trial account; Growth tier $2,000/mo per docs) |
+| ANCHORBROWSER | stealth | Yes | Clean | Clean | Clean | 0.3 | Free (worked on trial account; Growth tier $2,000/mo per docs) |
 | BROWSERBASE | default | Yes | Clean | Clean | Clean | 0.3 | Scale plan (custom pricing) |
 | BROWSERBASE | stealth | No (plan gate) | — | — | — | — | 403 Advanced stealth mode is only available on the Enterprise plan |
-| BROWSERLESS | default | No | Detected | Detected | Detected | 0.3 | Free (stealth endpoint) |
-| BROWSERLESS | stealth | Yes | Clean | Clean | Clean | — | Free (stealth endpoint) |
 | HYPERBROWSER | default | Yes | Clean | Clean | Clean | 0.3 | Paid ($10/GB proxy) |
 | HYPERBROWSER | stealth | Yes | Clean | Clean | Clean | 0.1 | Paid ($10/GB proxy) |
 | KERNEL | default | Yes | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
 | KERNEL | stealth | Yes | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
 | STEEL | default | Yes | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
 | STEEL | stealth | Yes | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
+| BROWSERLESS | default | No | Detected | Detected | Detected | 0.3 | Free (stealth endpoint) |
+| BROWSERLESS | stealth | Yes | Clean | Clean | Clean | — | Free (stealth endpoint) |
 
 ### 4. CAPTCHA solving
 
@@ -50,8 +50,8 @@ _Last updated: 2026-03-06_
 |----------|-----------|----------|--------|------------|----------------|
 | BROWSERLESS | Yes | Yes | Yes | 17.3s | 10 units/solve (~$0.02 on paid) |
 | KERNEL | Yes | Yes | Yes | 38.5s | ~$0.0006/solve (GB-seconds) |
-| STEEL | No | — | — | — | Starter plan ($29/mo) required |
 | BROWSERBASE | No | — | — | — | Developer plan ($20/mo) required |
+| STEEL | No | — | — | — | Starter plan ($29/mo) required |
 | HYPERBROWSER | No | — | — | — | Paid plan required |
 | ANCHORBROWSER | No | — | — | — | Starter plan ($50/mo) required |
 

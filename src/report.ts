@@ -230,7 +230,7 @@ function bench3Table(): string | null {
     KERNEL:        "Free (managed proxy included)",
     STEEL:         "Paid (proxy add-on)",
     HYPERBROWSER:  "Paid ($10/GB proxy)",
-    ANCHORBROWSER: "Growth tier ($2,000/mo)",
+    ANCHORBROWSER: "Free (worked on trial account; Growth tier $2,000/mo per docs)",
     BROWSERBASE:   "Scale plan (custom pricing)",
   };
 
@@ -240,7 +240,21 @@ function bench3Table(): string | null {
     failedByKey[`${r.provider}__${r.mode}`] = r;
   }
 
-  const allProviders = [...new Set([...rows.map((r) => r.provider), ...failedRows.map((r) => r.provider)])].sort();
+  // Score each provider: 0 = passes default, 1 = fails default but passes stealth, 2 = has plan gate
+  function providerScore(provider: string): number {
+    const defaultRow = rows.find((r) => r.provider === provider && r.mode === "default");
+    if (!defaultRow) return 2;
+    const allClean = defaultRow.sannysoft_webdriver_detected === false &&
+      defaultRow.sannysoft_headless_detected === false &&
+      defaultRow.areyouheadless_detected === false;
+    if (allClean) return 0;
+    const stealthRow = rows.find((r) => r.provider === provider && r.mode === "stealth");
+    if (stealthRow) return 1;
+    return 2;
+  }
+
+  const allProviders = [...new Set([...rows.map((r) => r.provider), ...failedRows.map((r) => r.provider)])]
+    .sort((a, b) => providerScore(String(a)) - providerScore(String(b)) || String(a).localeCompare(String(b)));
   const allModes = ["default", "stealth"];
   const allRows: any[] = [];
   for (const provider of allProviders) {
@@ -317,7 +331,7 @@ function bench4Table(): string | null {
   };
   // Plan cost order for unsupported providers (cheapest to unlock first)
   const captchaPlanOrder: Record<string, number> = {
-    STEEL: 0, BROWSERBASE: 1, HYPERBROWSER: 2, ANCHORBROWSER: 3,
+    BROWSERBASE: 0, STEEL: 1, HYPERBROWSER: 2, ANCHORBROWSER: 3,
   };
   const sorted = [...rows].sort((a, b) => {
     if (a.supported !== b.supported) return a.supported ? -1 : 1;
