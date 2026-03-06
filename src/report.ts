@@ -240,17 +240,22 @@ function bench3Table(): string | null {
     failedByKey[`${r.provider}__${r.mode}`] = r;
   }
 
-  // Score each provider: 0 = passes default, 1 = fails default but passes stealth, 2 = has plan gate
+  // Score each provider for ranking:
+  // 0 = passes default + highest reCAPTCHA, 1 = passes default lower reCAPTCHA,
+  // 2 = fails default but stealth fixes it, 3 = plan gate / no stealth
   function providerScore(provider: string): number {
     const defaultRow = rows.find((r) => r.provider === provider && r.mode === "default");
-    if (!defaultRow) return 2;
+    if (!defaultRow) return 3;
     const allClean = defaultRow.sannysoft_webdriver_detected === false &&
       defaultRow.sannysoft_headless_detected === false &&
       defaultRow.areyouheadless_detected === false;
-    if (allClean) return 0;
-    const stealthRow = rows.find((r) => r.provider === provider && r.mode === "stealth");
-    if (stealthRow) return 1;
-    return 2;
+    if (!allClean) {
+      const stealthRow = rows.find((r) => r.provider === provider && r.mode === "stealth");
+      return stealthRow ? 2 : 3;
+    }
+    // Passing default — rank by best reCAPTCHA score (higher is better, null = 0)
+    const score = Number(defaultRow.recaptcha_score ?? 0);
+    return score >= 0.3 ? 0 : 1;
   }
 
   const allProviders = [...new Set([...rows.map((r) => r.provider), ...failedRows.map((r) => r.provider)])]
