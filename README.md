@@ -29,20 +29,20 @@ _Last updated: 2026-03-06_
 
 ### 3. Stealth / bot detection
 
-| Provider | Mode | WebDriver | Headless UA | AreYouHeadless | reCAPTCHA score | Stealth plan |
-|----------|------|-----------|-------------|----------------|-----------------|--------------|
-| ANCHORBROWSER | default | Clean | Clean | Clean | 0.3 | Growth tier ($2,000/mo) |
-| ANCHORBROWSER | stealth | Clean | Clean | Clean | 0.3 | Growth tier ($2,000/mo) |
-| BROWSERBASE | default | Clean | Clean | Clean | 0.3 | Scale plan (custom pricing) |
-| BROWSERLESS | default | Detected | Detected | Detected | 0.3 | Free (stealth endpoint) |
-| BROWSERLESS | stealth | Clean | Clean | Clean | — | Free (stealth endpoint) |
-| HYPERBROWSER | default | Clean | Clean | Clean | 0.3 | Paid ($10/GB proxy) |
-| HYPERBROWSER | stealth | Clean | Clean | Clean | 0.1 | Paid ($10/GB proxy) |
-| KERNEL | default | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
-| KERNEL | stealth | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
-| STEEL | default | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
-| STEEL | stealth | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
-| BROWSERBASE | stealth | — | — | — | — | 403 Advanced stealth mode is only available on the Enterprise plan |
+| Provider | Mode | Pass | WebDriver | Headless UA | AreYouHeadless | reCAPTCHA score | Stealth plan |
+|----------|------|------|-----------|-------------|----------------|-----------------|--------------|
+| ANCHORBROWSER | default | Yes | Clean | Clean | Clean | 0.3 | Growth tier ($2,000/mo) |
+| ANCHORBROWSER | stealth | Yes | Clean | Clean | Clean | 0.3 | Growth tier ($2,000/mo) |
+| BROWSERBASE | default | Yes | Clean | Clean | Clean | 0.3 | Scale plan (custom pricing) |
+| BROWSERBASE | stealth | No (plan gate) | — | — | — | — | 403 Advanced stealth mode is only available on the Enterprise plan |
+| BROWSERLESS | default | No | Detected | Detected | Detected | 0.3 | Free (stealth endpoint) |
+| BROWSERLESS | stealth | Yes | Clean | Clean | Clean | — | Free (stealth endpoint) |
+| HYPERBROWSER | default | Yes | Clean | Clean | Clean | 0.3 | Paid ($10/GB proxy) |
+| HYPERBROWSER | stealth | Yes | Clean | Clean | Clean | 0.1 | Paid ($10/GB proxy) |
+| KERNEL | default | Yes | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
+| KERNEL | stealth | Yes | Clean | Clean | Clean | 0.3 | Free (managed proxy included) |
+| STEEL | default | Yes | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
+| STEEL | stealth | Yes | Clean | Clean | Clean | 0.3 | Paid (proxy add-on) |
 
 ### 4. CAPTCHA solving
 
@@ -50,8 +50,8 @@ _Last updated: 2026-03-06_
 |----------|-----------|----------|--------|------------|----------------|
 | BROWSERLESS | Yes | Yes | Yes | 17.3s | 10 units/solve (~$0.02 on paid) |
 | KERNEL | Yes | Yes | Yes | 38.5s | ~$0.0006/solve (GB-seconds) |
-| BROWSERBASE | No | — | — | — | Developer plan ($20/mo) required |
 | STEEL | No | — | — | — | Starter plan ($29/mo) required |
+| BROWSERBASE | No | — | — | — | Developer plan ($20/mo) required |
 | HYPERBROWSER | No | — | — | — | Paid plan required |
 | ANCHORBROWSER | No | — | — | — | Starter plan ($50/mo) required |
 
@@ -59,12 +59,12 @@ _Last updated: 2026-03-06_
 
 | Rank | Provider | True parallel | Overhead ratio | Sessions succeeded | Failed batches | Free tier concurrency |
 |------|----------|--------------|----------------|-------------------|----------------|----------------------|
-| 1 | STEEL | Yes | 0.3729 | 3 / 3 | 0 | 3 (free tier) |
-| 2 | KERNEL | Yes | 0.3792 | 3 / 3 | 0 | 5 (free tier) |
-| 3 | ANCHORBROWSER | Yes | 0.3444 | 3 / 3 | 0 | 5 (free tier) |
-| 4 | BROWSERLESS | No (sequential) | 1.0002 | 3 / 3 | 0 | 2 (free tier) |
-| 5 | HYPERBROWSER | No (sequential) | 1.0001 | 3 / 3 | 0 | 1 (free tier) |
-| 6 | BROWSERBASE | No (sequential) | 1.0001 | 3 / 3 | 0 | 1 (free tier) |
+| 1 | ANCHORBROWSER | Yes | 0.3444 | 3 / 3 | 0 | 5 (free tier) |
+| 2 | STEEL | Yes | 0.3729 | 3 / 3 | 0 | 3 (free tier) |
+| 3 | KERNEL | Yes | 0.3792 | 3 / 3 | 0 | 5 (free tier) |
+| 4 | HYPERBROWSER | No (sequential) | 1.0001 | 3 / 3 | 0 | 1 (free tier) |
+| 5 | BROWSERBASE | No (sequential) | 1.0001 | 3 / 3 | 0 | 1 (free tier) |
+| 6 | BROWSERLESS | No (sequential) | 1.0002 | 3 / 3 | 0 | 2 (free tier) |
 
 <!-- RESULTS:END -->
 

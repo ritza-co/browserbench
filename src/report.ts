@@ -234,24 +234,35 @@ function bench3Table(): string | null {
     BROWSERBASE:   "Scale plan (custom pricing)",
   };
 
-  // Successful rows first, sorted by provider then mode; failed rows appended at end
-  const allRows = [
-    ...rows,
-    ...failedRows.map((r) => ({ ...r, _failed: true })),
-  ].sort((a: any, b: any) => {
-    if (a._failed !== b._failed) return a._failed ? 1 : -1;
-    if (a.provider !== b.provider) return String(a.provider).localeCompare(String(b.provider));
-    return String(a.mode).localeCompare(String(b.mode));
-  });
+  // Merge failed rows into provider groups, sort by provider then mode
+  const failedByKey: Record<string, any> = {};
+  for (const r of failedRows) {
+    failedByKey[`${r.provider}__${r.mode}`] = r;
+  }
 
-  const header = `| Provider | Mode | WebDriver | Headless UA | AreYouHeadless | reCAPTCHA score | Stealth plan |`;
-  const divider = `|----------|------|-----------|-------------|----------------|-----------------|--------------|`;
+  const allProviders = [...new Set([...rows.map((r) => r.provider), ...failedRows.map((r) => r.provider)])].sort();
+  const allModes = ["default", "stealth"];
+  const allRows: any[] = [];
+  for (const provider of allProviders) {
+    for (const mode of allModes) {
+      const key = `${provider}__${mode}`;
+      const success = rows.find((r) => r.provider === provider && r.mode === mode);
+      const failed = failedByKey[key];
+      if (success) allRows.push({ ...success, _failed: false });
+      else if (failed) allRows.push({ ...failed, _failed: true });
+    }
+  }
+
+  const header = `| Provider | Mode | Pass | WebDriver | Headless UA | AreYouHeadless | reCAPTCHA score | Stealth plan |`;
+  const divider = `|----------|------|------|-----------|-------------|----------------|-----------------|--------------|`;
   const lines = allRows.map((r: any) => {
     if (r._failed) {
       const reason = String(r.error_message ?? "").split("\n")[0].replace(/Error: /, "");
-      return `| ${r.provider} | ${r.mode} | — | — | — | — | ${reason} |`;
+      return `| ${r.provider} | ${r.mode} | No (plan gate) | — | — | — | — | ${reason} |`;
     }
-    return `| ${r.provider} | ${r.mode} | ${fmt(r.sannysoft_webdriver_detected)} | ${fmt(r.sannysoft_headless_detected)} | ${fmt(r.areyouheadless_detected)} | ${r.recaptcha_score ?? "—"} | ${stealthPlan[String(r.provider)] ?? "—"} |`;
+    const allClean = r.sannysoft_webdriver_detected === false && r.sannysoft_headless_detected === false && r.areyouheadless_detected === false;
+    const pass = allClean ? "Yes" : "No";
+    return `| ${r.provider} | ${r.mode} | ${pass} | ${fmt(r.sannysoft_webdriver_detected)} | ${fmt(r.sannysoft_headless_detected)} | ${fmt(r.areyouheadless_detected)} | ${r.recaptcha_score ?? "—"} | ${stealthPlan[String(r.provider)] ?? "—"} |`;
   });
 
   return [header, divider, ...lines].join("\n");
@@ -279,7 +290,7 @@ function bench4Table(): string | null {
       not_supported_reason
     FROM ranked
     WHERE rn = 1
-    ORDER BY supported DESC, solve_s ASC NULLS LAST
+    ORDER BY supported DESC, solve_s ASC NULLS LAST, provider ASC
   `);
 
   if (!rows.length) return null;
@@ -299,15 +310,26 @@ function bench4Table(): string | null {
   const captchaCost: Record<string, string> = {
     BROWSERLESS:   "10 units/solve (~$0.02 on paid)",
     KERNEL:        "~$0.0006/solve (GB-seconds)",
-    ANCHORBROWSER: "Starter plan ($50/mo) required",
+    STEEL:         "Starter plan ($29/mo) required",
     BROWSERBASE:   "Developer plan ($20/mo) required",
     HYPERBROWSER:  "Paid plan required",
-    STEEL:         "Starter plan ($29/mo) required",
+    ANCHORBROWSER: "Starter plan ($50/mo) required",
   };
+  // Plan cost order for unsupported providers (cheapest to unlock first)
+  const captchaPlanOrder: Record<string, number> = {
+    STEEL: 0, BROWSERBASE: 1, HYPERBROWSER: 2, ANCHORBROWSER: 3,
+  };
+  const sorted = [...rows].sort((a, b) => {
+    if (a.supported !== b.supported) return a.supported ? -1 : 1;
+    if (!a.supported) {
+      return (captchaPlanOrder[String(a.provider)] ?? 99) - (captchaPlanOrder[String(b.provider)] ?? 99);
+    }
+    return Number(a.solve_s ?? 0) - Number(b.solve_s ?? 0);
+  });
 
   const header = `| Provider | Free tier | Detected | Solved | Solve time | Cost per solve |`;
   const divider = `|----------|-----------|----------|--------|------------|----------------|`;
-  const lines = rows.map((r) => {
+  const lines = sorted.map((r) => {
     const solveTime = r.solve_s != null ? `${r.solve_s}s` : r.supported ? "timeout" : "—";
     return `| ${r.provider} | ${fmtBool(r.supported)} | ${fmtBool(r.captcha_detected)} | ${fmtBool(r.captcha_solved)} | ${solveTime} | ${captchaCost[String(r.provider)] ?? "—"} |`;
   });
@@ -332,7 +354,7 @@ function bench5Table(): string | null {
       SUM(CASE WHEN success THEN 0 ELSE 1 END) AS failed_batches
     FROM read_ndjson_auto('results/parallel-*.jsonl')
     GROUP BY provider, sequential_mode, concurrency
-    ORDER BY sequential_mode ASC, avg_parallel_ms ASC
+    ORDER BY sequential_mode ASC, avg_overhead_ratio ASC
   `);
 
   if (!rows.length) return null;
